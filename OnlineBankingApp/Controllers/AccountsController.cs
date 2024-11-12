@@ -6,9 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace OnlineBankingApp.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AccountsController : ControllerBase
+    public class AccountsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
@@ -17,19 +15,18 @@ namespace OnlineBankingApp.Controllers
             _context = context;
         }
 
-        // GET: api/Accounts
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Account>>> GetAccounts()
+        // GET: Accounts
+        public async Task<IActionResult> Index()
         {
-            return await _context.Accounts
-                                 .Include(a => a.User)
-                                 .Include(a => a.Bank)
-                                 .ToListAsync();
+            var accounts = await _context.Accounts
+                                         .Include(a => a.User)
+                                         .Include(a => a.Bank)
+                                         .ToListAsync();
+            return View(accounts);
         }
 
-        // GET: api/Accounts/{id}
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Account>> GetAccount(int id)
+        // GET: Accounts/Details/{id}
+        public async Task<IActionResult> Details(int id)
         {
             var account = await _context.Accounts
                                         .Include(a => a.User)
@@ -41,68 +38,100 @@ namespace OnlineBankingApp.Controllers
                 return NotFound();
             }
 
-            return account;
+            return View(account);
         }
 
-        // POST: api/Accounts
+        // GET: Accounts/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Accounts/Create
         [HttpPost]
-        public async Task<ActionResult<Account>> PostAccount(Account account)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Account account)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return BadRequest(ModelState);
-            }
-
-            _context.Accounts.Add(account);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetAccount), new { id = account.AccountId }, account);
-        }
-
-        // PUT: api/Accounts/{id}
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutAccount(int id, Account account)
-        {
-            if (id.ToString() != account.AccountId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(account).State = EntityState.Modified;
-
-            try
-            {
+                _context.Accounts.Add(account);
                 await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AccountExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return View(account);
         }
 
-        // DELETE: api/Accounts/{id}
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAccount(int id)
+        // GET: Accounts/Edit/{id}
+        public async Task<IActionResult> Edit(int id)
         {
             var account = await _context.Accounts.FindAsync(id.ToString());
             if (account == null)
             {
                 return NotFound();
             }
+            return View(account);
+        }
 
-            _context.Accounts.Remove(account);
-            await _context.SaveChangesAsync();
+        // POST: Accounts/Edit/{id}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, Account account)
+        {
+            if (id.ToString() != account.AccountId)
+            {
+                return BadRequest();
+            }
 
-            return NoContent();
+            if (ModelState.IsValid)
+            {
+                _context.Entry(account).State = EntityState.Modified;
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!AccountExists(id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(account);
+        }
+
+        // GET: Accounts/Delete/{id}
+        public async Task<IActionResult> Delete(int id)
+        {
+            var account = await _context.Accounts
+                                        .FirstOrDefaultAsync(a => a.AccountId == id.ToString());
+
+            if (account == null)
+            {
+                return NotFound();
+            }
+
+            return View(account);
+        }
+
+        // POST: Accounts/Delete/{id}
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var account = await _context.Accounts.FindAsync(id.ToString());
+            if (account != null)
+            {
+                _context.Accounts.Remove(account);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         private bool AccountExists(int id)
