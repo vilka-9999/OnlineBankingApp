@@ -1,0 +1,53 @@
+﻿@model IEnumerable<OnlineBankingApp.Models.Transfer>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TransferAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransferDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SenderAccount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceiverAccount)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransferAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransferDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SenderAccount.AccountId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReceiverAccount.AccountId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.TransferId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.TransferId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.TransferId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

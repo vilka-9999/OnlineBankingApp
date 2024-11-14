@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OnlineBankingApp.Models
 {
@@ -8,6 +9,7 @@ namespace OnlineBankingApp.Models
         public string? AccountId { get; set; }
 
         [Required(ErrorMessage = "Account Balance is required")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal AccountBalance { get; set; }
 
         [Required(ErrorMessage = "Account Type is required")]

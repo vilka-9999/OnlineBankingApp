@@ -13,7 +13,7 @@ namespace OnlineBankingApp.Models
         public string Password { get; set; }
 
         [Required(ErrorMessage = "Advisor is required")]
-        public int AdvisorId { get; set; }
+        public int? AdvisorId { get; set; }
 
         [ValidateNever]
         public Advisor Advisor { get; set; } = null!;

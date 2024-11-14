@@ -1,28 +1,31 @@
-using Microsoft.AspNetCore.Mvc;
-using OnlineBankingApp.Data;
-using OnlineBankingApp.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using OnlineBankingApp.Models;
 
-namespace OnlineBankingApp.Controllers
+namespace OnlineBankingApp.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class AdvisorsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly OnlineBankingAppContext _context;
 
-        public AdvisorsController(ApplicationDbContext context)
+        public AdvisorsController(OnlineBankingAppContext context)
         {
             _context = context;
         }
 
-        // GET: Advisors
+        // GET: Admin/Advisors
         public async Task<IActionResult> Index()
         {
-            var advisors = await _context.Advisors.ToListAsync();
-            return View(advisors);
+            return View(await _context.Advisors.ToListAsync());
         }
 
-        // GET: Advisors/Details/{id}
+        // GET: Admin/Advisors/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -30,7 +33,8 @@ namespace OnlineBankingApp.Controllers
                 return NotFound();
             }
 
-            var advisor = await _context.Advisors.FirstOrDefaultAsync(m => m.AdvisorId == id);
+            var advisor = await _context.Advisors
+                .FirstOrDefaultAsync(m => m.AdvisorId == id);
             if (advisor == null)
             {
                 return NotFound();
@@ -39,13 +43,15 @@ namespace OnlineBankingApp.Controllers
             return View(advisor);
         }
 
-        // GET: Advisors/Create
+        // GET: Admin/Advisors/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Advisors/Create
+        // POST: Admin/Advisors/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("AdvisorId,AdvisorName,ClientsNumber")] Advisor advisor)
@@ -59,7 +65,7 @@ namespace OnlineBankingApp.Controllers
             return View(advisor);
         }
 
-        // GET: Advisors/Edit/{id}
+        // GET: Admin/Advisors/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -75,10 +81,12 @@ namespace OnlineBankingApp.Controllers
             return View(advisor);
         }
 
-        // POST: Advisors/Edit/{id}
+        // POST: Admin/Advisors/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AdvisorId,AdvisorName,ClientsNumber")] Advisor advisor)
+        public async Task<IActionResult> Edit(int? id, [Bind("AdvisorId,AdvisorName,ClientsNumber")] Advisor advisor)
         {
             if (id != advisor.AdvisorId)
             {
@@ -94,7 +102,7 @@ namespace OnlineBankingApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AdvisorExists(advisor.AdvisorId ?? 0))
+                    if (!AdvisorExists(advisor.AdvisorId))
                     {
                         return NotFound();
                     }
@@ -108,7 +116,7 @@ namespace OnlineBankingApp.Controllers
             return View(advisor);
         }
 
-        // GET: Advisors/Delete/{id}
+        // GET: Admin/Advisors/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -116,7 +124,8 @@ namespace OnlineBankingApp.Controllers
                 return NotFound();
             }
 
-            var advisor = await _context.Advisors.FirstOrDefaultAsync(m => m.AdvisorId == id);
+            var advisor = await _context.Advisors
+                .FirstOrDefaultAsync(m => m.AdvisorId == id);
             if (advisor == null)
             {
                 return NotFound();
@@ -125,21 +134,22 @@ namespace OnlineBankingApp.Controllers
             return View(advisor);
         }
 
-        // POST: Advisors/Delete/{id}
+        // POST: Admin/Advisors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int? id)
         {
             var advisor = await _context.Advisors.FindAsync(id);
             if (advisor != null)
             {
                 _context.Advisors.Remove(advisor);
-                await _context.SaveChangesAsync();
             }
+
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AdvisorExists(int id)
+        private bool AdvisorExists(int? id)
         {
             return _context.Advisors.Any(e => e.AdvisorId == id);
         }
