@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineBankingApp.Models;
 using System.Diagnostics;
@@ -13,8 +14,10 @@ namespace OnlineBankingApp.Controllers
             _logger = logger;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
+            ViewBag.Name = HttpContext.User.Identity.Name;
             return View();
         }
 
