@@ -43,14 +43,43 @@ namespace OnlineBankingApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "LoginViewModel",
+                columns: table => new
+                {
+                    EmailOrUsername = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RegistrationViewModel",
+                columns: table => new
+                {
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ConfirmPaword = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
                     UserId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AdvisorId = table.Column<int>(type: "int", nullable: false)
+                    AdvisorId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -59,8 +88,7 @@ namespace OnlineBankingApp.Migrations
                         name: "FK_Users_Advisors_AdvisorId",
                         column: x => x.AdvisorId,
                         principalTable: "Advisors",
-                        principalColumn: "AdvisorId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "AdvisorId");
                 });
 
             migrationBuilder.CreateTable(
@@ -130,8 +158,8 @@ namespace OnlineBankingApp.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "UserId", "AdvisorId", "Password", "Username" },
-                values: new object[] { 1, 1, "TestUP", "TestUU" });
+                columns: new[] { "UserId", "AdvisorId", "Email", "FirstName", "LastName", "Password", "Username" },
+                values: new object[] { 1, 1, "1@gmail.com", "name1", "name2", "TestUP", "TestUU" });
 
             migrationBuilder.InsertData(
                 table: "Accounts",
@@ -145,7 +173,7 @@ namespace OnlineBankingApp.Migrations
             migrationBuilder.InsertData(
                 table: "Transfers",
                 columns: new[] { "TransferId", "ReceiverAccountId", "SenderAccountId", "TransferAmount", "TransferDate" },
-                values: new object[] { 1, "TestAccId1", "TestAccId", 1, new DateTime(2024, 11, 14, 3, 9, 16, 679, DateTimeKind.Utc).AddTicks(9858) });
+                values: new object[] { 1, "TestAccId1", "TestAccId", 1, new DateTime(2024, 11, 22, 6, 12, 54, 191, DateTimeKind.Utc).AddTicks(2396) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Accounts_BankId",
@@ -171,11 +199,29 @@ namespace OnlineBankingApp.Migrations
                 name: "IX_Users_AdvisorId",
                 table: "Users",
                 column: "AdvisorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Email",
+                table: "Users",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Username",
+                table: "Users",
+                column: "Username",
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "LoginViewModel");
+
+            migrationBuilder.DropTable(
+                name: "RegistrationViewModel");
+
             migrationBuilder.DropTable(
                 name: "Transfers");
 

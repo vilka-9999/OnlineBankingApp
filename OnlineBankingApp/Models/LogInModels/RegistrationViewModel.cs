@@ -1,14 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
-namespace OnlineBankingApp.Models
+namespace OnlineBankingApp.Models.LogInModels
 {
-    [Index(nameof(Email), IsUnique = true)]
-    [Index(nameof(Username), IsUnique = true)]
-    public class User
+    [Keyless]
+    public class RegistrationViewModel
     {
-        public int? UserId { get; set; }
 
         [Required(ErrorMessage = "First Name is required")]
         public String FirstName { get; set; }
@@ -27,10 +24,8 @@ namespace OnlineBankingApp.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        public int? AdvisorId { get; set; }
-
-        [ValidateNever]
-        public Advisor Advisor { get; set; } = null!;
-
+        [Compare("Password", ErrorMessage = "Password is required")]
+        [DataType(DataType.Password)]
+        public string ConfirmPaword { get; set; }
     }
 }

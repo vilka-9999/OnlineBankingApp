@@ -17,7 +17,7 @@ namespace OnlineBankingApp.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.7")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -129,6 +129,48 @@ namespace OnlineBankingApp.Migrations
                         });
                 });
 
+            modelBuilder.Entity("OnlineBankingApp.Models.LogInModels.LoginViewModel", b =>
+                {
+                    b.Property<string>("EmailOrUsername")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("LoginViewModel");
+                });
+
+            modelBuilder.Entity("OnlineBankingApp.Models.LogInModels.RegistrationViewModel", b =>
+                {
+                    b.Property<string>("ConfirmPaword")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("RegistrationViewModel");
+                });
+
             modelBuilder.Entity("OnlineBankingApp.Models.Transfer", b =>
                 {
                     b.Property<int?>("TransferId")
@@ -166,7 +208,7 @@ namespace OnlineBankingApp.Migrations
                             ReceiverAccountId = "TestAccId1",
                             SenderAccountId = "TestAccId",
                             TransferAmount = 1,
-                            TransferDate = new DateTime(2024, 11, 14, 3, 9, 16, 679, DateTimeKind.Utc).AddTicks(9858)
+                            TransferDate = new DateTime(2024, 11, 22, 6, 12, 54, 191, DateTimeKind.Utc).AddTicks(2396)
                         });
                 });
 
@@ -179,8 +221,19 @@ namespace OnlineBankingApp.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("UserId"));
 
                     b.Property<int?>("AdvisorId")
-                        .IsRequired()
                         .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -188,11 +241,17 @@ namespace OnlineBankingApp.Migrations
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("UserId");
 
                     b.HasIndex("AdvisorId");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("Username")
+                        .IsUnique();
 
                     b.ToTable("Users");
 
@@ -201,6 +260,9 @@ namespace OnlineBankingApp.Migrations
                         {
                             UserId = 1,
                             AdvisorId = 1,
+                            Email = "1@gmail.com",
+                            FirstName = "name1",
+                            LastName = "name2",
                             Password = "TestUP",
                             Username = "TestUU"
                         });
@@ -248,9 +310,7 @@ namespace OnlineBankingApp.Migrations
                 {
                     b.HasOne("OnlineBankingApp.Models.Advisor", "Advisor")
                         .WithMany()
-                        .HasForeignKey("AdvisorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AdvisorId");
 
                     b.Navigation("Advisor");
                 });

@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using OnlineBankingApp.Models;
 
@@ -23,6 +24,11 @@ namespace OnlineBankingApp
             });
 
             services.AddControllersWithViews();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+            {
+                options.LoginPath = "/UserRegistrationLogin/Login";
+            });
+
 
             services.AddDbContext<OnlineBankingAppContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("OnlineBankingAppContext")));
@@ -35,7 +41,11 @@ namespace OnlineBankingApp
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseAuthentication();
+            
+
             app.UseRouting();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapAreaControllerRoute(

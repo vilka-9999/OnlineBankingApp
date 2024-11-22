@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using OnlineBankingApp.Models.LogInModels;
 
 namespace OnlineBankingApp.Models
 {
@@ -23,6 +24,9 @@ namespace OnlineBankingApp.Models
                 new User
                 {
                     UserId = 1,
+                    FirstName = "name1",
+                    LastName = "name2",
+                    Email = "1@gmail.com",
                     Username = "TestUU",
                     Password = "TestUP",
                     AdvisorId = 1,
@@ -88,5 +92,7 @@ namespace OnlineBankingApp.Models
                 }
             );
         }
+        public DbSet<OnlineBankingApp.Models.LogInModels.LoginViewModel> LoginViewModel { get; set; } = default!;
+        public DbSet<OnlineBankingApp.Models.LogInModels.RegistrationViewModel> RegistrationViewModel { get; set; } = default!;
     }
 }
