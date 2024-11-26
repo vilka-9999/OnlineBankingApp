@@ -39,6 +39,16 @@ namespace OnlineBankingApp.Controllers
                 user.Password = model.Password;
                 user.Username = model.Username;
 
+                var advisor = _context.Advisors
+                    .OrderBy(x => x.ClientsNumber)
+                    .FirstOrDefault();
+                if (advisor != null)
+                {
+                    user.AdvisorId = advisor.AdvisorId;
+                    advisor.ClientsNumber++;
+                }
+
+
                 try
                 {
                     _context.Users.Add(user);
