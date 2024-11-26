@@ -16,7 +16,7 @@ namespace OnlineBankingApp.Models
         public string AccountType { get; set; }
 
         [Required(ErrorMessage = "User is required")]
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
 
         [ValidateNever]
         public User User { get; set; } = null!;

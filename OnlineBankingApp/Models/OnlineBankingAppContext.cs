@@ -61,15 +61,13 @@ namespace OnlineBankingApp.Models
                 }
             );
 
+            
             modelBuilder.Entity<Bank>().HasData(
-                new Bank
-                {
-                    BankId = 1,
-                    BankName = "BoA",
-                    BankCountry = "USA",
-                    BankType = "testBT"
-                }
-            );
+                new Bank { BankId = 1, BankName = "Bank of America", BankCountry = "USA", BankType = "National" },
+                new Bank { BankId = 2, BankName = "Chase Bank", BankCountry = "USA", BankType = "National" }
+                );
+
+            
 
             modelBuilder.Entity<Transfer>()
                 .HasOne(t => t.SenderAccount)
@@ -82,6 +80,7 @@ namespace OnlineBankingApp.Models
                 .WithMany()
                 .HasForeignKey(t => t.ReceiverAccountId)
                 .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<Transfer>().HasData(
                 new Transfer
                 {

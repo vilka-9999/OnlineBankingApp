@@ -1,0 +1,42 @@
+﻿@model OnlineBankingApp.Models.Account
+
+@{
+    ViewData["Title"] = "Create Account";
+}
+
+<h1>Create New Account</h1>
+
+<form method="post" asp-action="Create" class="form-horizontal">
+    <div class="form-group">
+        <label asp-for="AccountType" class="control-label"></label>
+        <input asp-for="AccountType" class="form-control" />
+        <span asp-validation-for="AccountType" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="AccountBalance" class="control-label"></label>
+        <input asp-for="AccountBalance" type="number" class="form-control" />
+        <span asp-validation-for="AccountBalance" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label">Bank</label>
+        <select asp-for="BankId" class="form-control" id="BankId">
+            <option value="">Select Bank</option>
+            @foreach (var bank in ViewBag.Banks as IEnumerable<OnlineBankingApp.Models.Bank>)
+            {
+                <option value="@bank.BankId">@bank.BankName</option>
+            }
+        </select>
+        <span asp-validation-for="BankId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Create Account</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

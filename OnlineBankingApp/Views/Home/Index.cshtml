@@ -1,8 +1,37 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    var accounts = ViewBag.Accounts as List<Account>; // Get accounts from ViewBag
 }
 
-<div class="text-center">
-    <h1 class="display-4">@ViewBag.Name</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="user-info">
+    <h2>@ViewBag.User.FirstName @ViewBag.User.LastName</h2>
+    <p>Email: @ViewBag.User.Email</p>
 </div>
+
+<h3>My Accounts</h3>
+
+<div class="accounts-list">
+    @foreach (var account in accounts)
+    {
+        <div class="account-card">
+            <h4>@account.Bank.BankName</h4>
+            <p><strong>Account ID:</strong> @account.AccountId</p>
+            <p><strong>Account Type:</strong> @account.AccountType</p>
+            <p><strong>Balance:</strong> $@account.AccountBalance</p>
+
+            <!-- Edit Button (posts to Edit Action) -->
+            <form method="get" action="@Url.Action("Edit", "Home", new { id = account.AccountId })" style="display:inline;">
+                <button type="submit" class="btn btn-primary">Edit</button>
+            </form>
+
+            <!-- Delete Button (posts to Delete Action) -->
+            <form method="post" action="@Url.Action("Delete", "Home", new { id = account.AccountId })" style="display:inline;">
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this account?');">Delete</button>
+            </form>
+        </div>
+    }
+</div>
+
+<!-- Add New Account Button -->
+<form method="get" action="@Url.Action("Create", "Home")">
+    <button type="submit" class="btn btn-success">Add New Account</button>
+</form>
