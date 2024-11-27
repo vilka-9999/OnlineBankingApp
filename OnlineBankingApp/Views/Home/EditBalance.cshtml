@@ -1,20 +1,22 @@
 ﻿@model OnlineBankingApp.Models.Account
 
 @{
-    ViewData["Title"] = "Edit Account";
+    ViewData["Title"] = "Edit Balance";
 }
 
 <h1>Edit Account</h1>
 
-<form method="post" asp-action="Edit" asp-route-id="@Model.AccountId">
-    <div class="form-group">
-        <label for="AccountType">Account Type</label>
-        <input type="text" class="form-control" id="AccountType" name="AccountType" value="@Model.AccountType" />
-    </div>
+<form method="post" asp-action="EditBalance" asp-route-id="@Model.AccountId">
     <div class="form-group">
         <label for="AccountBalance">Account Balance</label>
         <input type="number" class="form-control" id="AccountBalance" name="AccountBalance" value="@Model.AccountBalance" />
     </div>
+    <input asp-for="AccountNumber" type="hidden"/>
+    <input asp-for="AccountType" type="hidden" />
+    <input asp-for="BankId" type="hidden" />
+    <input asp-for="UserId" type="hidden" />
+    <input asp-for="AccountId" type="hidden" />
+
 
     <button type="submit" class="btn btn-primary">Save Changes</button>
 </form>

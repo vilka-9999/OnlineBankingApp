@@ -116,5 +116,75 @@ namespace OnlineBankingApp.Controllers
             ViewBag.Banks = _context.Banks.ToList();
             return View(account); // Return the account model to the view if validation fails
         }
+
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult EditBalance(int id)
+        {
+            ViewBag.Action = "Edit Balance";
+            var account = _context.Accounts.Find(id);
+            return View(account);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult EditBalance(Account account)
+        {
+
+            var userEmail = HttpContext.User.Identity?.Name;
+
+            var user = _context.Users.FirstOrDefault(u => u.Email == userEmail);
+
+            var userId = user.UserId;
+
+
+            if (ModelState.IsValid)
+            {
+                // check if the account is edited by its user
+                if (userId == account.UserId)
+                {
+
+                    // Check for valid bank and account balance
+                    if (account.AccountBalance < 0)
+                    {
+                        ModelState.AddModelError("", "Account must have a positive balance.");
+                        ViewBag.Action = "Create";
+                        
+                        return View(account); // Return to the view with errors
+                    }
+
+                    // Update the new account to the database
+                    _context.Update(account);
+                    _context.SaveChanges(); // Save changes to the database
+
+                    return RedirectToAction("Index"); // Redirect to the Index view after creation
+                }
+            }
+
+            return View(account); // Return the account model to the view if validation fails
+        }
+
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult Delete(int id)
+        {
+            ViewBag.Action = "Delete Account";
+            var account = _context.Accounts.Find(id);
+            return View(account);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Delete(Account account)
+        {
+            _context.Accounts.Remove(account);
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Home");
+        }
+
     }
+
+
 }

@@ -19,13 +19,13 @@
             <p><strong>Balance:</strong> $@account.AccountBalance</p>
 
             <!-- Edit Button (posts to Edit Action) -->
-            <form method="get" action="@Url.Action("Edit", "Home", new { id = account.AccountId })" style="display:inline;">
-                <button type="submit" class="btn btn-primary">Edit</button>
+            <form method="get" action="@Url.Action("EditBalance", "Home", new { id = account.AccountId })" style="display:inline;">
+                <button type="submit" class="btn btn-primary">Edit Balance</button>
             </form>
 
             <!-- Delete Button (posts to Delete Action) -->
-            <form method="post" action="@Url.Action("Delete", "Home", new { id = account.AccountId })" style="display:inline;">
-                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this account?');">Delete</button>
+            <form method="get" action="@Url.Action("Delete", "Home", new { id = account.AccountId })" style="display:inline;">
+                <button type="submit" class="btn btn-danger">Delete</button>
             </form>
         </div>
     }
