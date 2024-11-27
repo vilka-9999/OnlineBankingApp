@@ -97,6 +97,7 @@ namespace OnlineBankingApp.Migrations
                 {
                     AccountId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    AccountNumber = table.Column<long>(type: "bigint", nullable: false),
                     AccountBalance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     AccountType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
@@ -168,17 +169,17 @@ namespace OnlineBankingApp.Migrations
 
             migrationBuilder.InsertData(
                 table: "Accounts",
-                columns: new[] { "AccountId", "AccountBalance", "AccountType", "BankId", "UserId" },
+                columns: new[] { "AccountId", "AccountBalance", "AccountNumber", "AccountType", "BankId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, 1m, "Saving", 1, 1 },
-                    { 2, 1m, "Saving", 1, 1 }
+                    { 1, 100m, 2000000000000000L, "Saving", 1, 1 },
+                    { 2, 1m, 1111111111111111L, "Saving", 1, 1 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Transfers",
                 columns: new[] { "TransferId", "ReceiverAccountId", "SenderAccountId", "TransferAmount", "TransferDate" },
-                values: new object[] { 1, 1, 1, 1, new DateTime(2024, 11, 27, 4, 19, 46, 290, DateTimeKind.Utc).AddTicks(9217) });
+                values: new object[] { 1, 1, 1, 1, new DateTime(2024, 11, 27, 21, 11, 13, 468, DateTimeKind.Utc).AddTicks(7124) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Accounts_BankId",

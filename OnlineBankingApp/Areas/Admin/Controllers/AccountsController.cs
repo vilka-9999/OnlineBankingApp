@@ -27,7 +27,7 @@ namespace OnlineBankingApp.Areas.Admin.Controllers
         }
 
         // GET: Admin/Accounts/Details/5
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -50,7 +50,7 @@ namespace OnlineBankingApp.Areas.Admin.Controllers
         public IActionResult Create()
         {
             ViewData["BankId"] = new SelectList(_context.Banks, "BankId", "BankCountry");
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "Username");
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "Email");
             return View();
         }
 
@@ -59,7 +59,7 @@ namespace OnlineBankingApp.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AccountId,AccountBalance,AccountType,UserId,BankId")] Account account)
+        public async Task<IActionResult> Create([Bind("AccountId,AccountNumber,AccountBalance,AccountType,UserId,BankId")] Account account)
         {
             if (ModelState.IsValid)
             {
@@ -68,12 +68,12 @@ namespace OnlineBankingApp.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["BankId"] = new SelectList(_context.Banks, "BankId", "BankCountry", account.BankId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "Username", account.UserId);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "Email", account.UserId);
             return View(account);
         }
 
         // GET: Admin/Accounts/Edit/5
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -86,7 +86,7 @@ namespace OnlineBankingApp.Areas.Admin.Controllers
                 return NotFound();
             }
             ViewData["BankId"] = new SelectList(_context.Banks, "BankId", "BankCountry", account.BankId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "Username", account.UserId);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "Email", account.UserId);
             return View(account);
         }
 
@@ -95,7 +95,7 @@ namespace OnlineBankingApp.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AccountId,AccountBalance,AccountType,UserId,BankId")] Account account)
+        public async Task<IActionResult> Edit(int? id, [Bind("AccountId,AccountNumber,AccountBalance,AccountType,UserId,BankId")] Account account)
         {
             if (id != account.AccountId)
             {
@@ -111,7 +111,7 @@ namespace OnlineBankingApp.Areas.Admin.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AccountExists((int)account.AccountId))
+                    if (!AccountExists(account.AccountId))
                     {
                         return NotFound();
                     }
@@ -123,12 +123,12 @@ namespace OnlineBankingApp.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["BankId"] = new SelectList(_context.Banks, "BankId", "BankCountry", account.BankId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "Username", account.UserId);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "Email", account.UserId);
             return View(account);
         }
 
         // GET: Admin/Accounts/Delete/5
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -150,7 +150,7 @@ namespace OnlineBankingApp.Areas.Admin.Controllers
         // POST: Admin/Accounts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int? id)
         {
             var account = await _context.Accounts.FindAsync(id);
             if (account != null)
@@ -162,7 +162,7 @@ namespace OnlineBankingApp.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AccountExists(int id)
+        private bool AccountExists(int? id)
         {
             return _context.Accounts.Any(e => e.AccountId == id);
         }

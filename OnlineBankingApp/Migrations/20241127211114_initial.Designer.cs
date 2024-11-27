@@ -12,7 +12,7 @@ using OnlineBankingApp.Models;
 namespace OnlineBankingApp.Migrations
 {
     [DbContext(typeof(OnlineBankingAppContext))]
-    [Migration("20241127041947_initial")]
+    [Migration("20241127211114_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -35,6 +35,9 @@ namespace OnlineBankingApp.Migrations
 
                     b.Property<decimal>("AccountBalance")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<long>("AccountNumber")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("AccountType")
                         .IsRequired()
@@ -59,7 +62,8 @@ namespace OnlineBankingApp.Migrations
                         new
                         {
                             AccountId = 1,
-                            AccountBalance = 1m,
+                            AccountBalance = 100m,
+                            AccountNumber = 2000000000000000L,
                             AccountType = "Saving",
                             BankId = 1,
                             UserId = 1
@@ -68,6 +72,7 @@ namespace OnlineBankingApp.Migrations
                         {
                             AccountId = 2,
                             AccountBalance = 1m,
+                            AccountNumber = 1111111111111111L,
                             AccountType = "Saving",
                             BankId = 1,
                             UserId = 1
@@ -222,7 +227,7 @@ namespace OnlineBankingApp.Migrations
                             ReceiverAccountId = 1,
                             SenderAccountId = 1,
                             TransferAmount = 1,
-                            TransferDate = new DateTime(2024, 11, 27, 4, 19, 46, 290, DateTimeKind.Utc).AddTicks(9217)
+                            TransferDate = new DateTime(2024, 11, 27, 21, 11, 13, 468, DateTimeKind.Utc).AddTicks(7124)
                         });
                 });
 

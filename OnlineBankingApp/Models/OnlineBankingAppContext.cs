@@ -46,7 +46,8 @@ namespace OnlineBankingApp.Models
                 new Account
                 {
                     AccountId = 1,
-                    AccountBalance = 1,
+                    AccountNumber = 2000000000000000,
+                    AccountBalance = 100,
                     AccountType = "Saving",
                     UserId = 1,
                     BankId = 1,
@@ -54,6 +55,7 @@ namespace OnlineBankingApp.Models
                 new Account
                 {
                     AccountId = 2,
+                    AccountNumber = 1111111111111111,
                     AccountBalance = 1,
                     AccountType = "Saving",
                     UserId = 1,

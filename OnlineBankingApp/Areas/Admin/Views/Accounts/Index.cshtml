@@ -13,6 +13,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.AccountNumber)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.AccountBalance)
             </th>
             <th>
@@ -31,13 +34,16 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.AccountNumber)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.AccountBalance)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AccountType)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.User.Username)
+                @Html.DisplayFor(modelItem => item.User.Email)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Bank.BankCountry)

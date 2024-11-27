@@ -24,13 +24,13 @@ namespace OnlineBankingApp.Controllers
             var userEmail = HttpContext.User.Identity?.Name;
             if (string.IsNullOrEmpty(userEmail))
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("Index", "UserRegistrationLogin");
             }
 
             var user = _context.Users.FirstOrDefault(u => u.Email == userEmail);
             if (user == null)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("Index", "UserRegistrationLogin");
             }
 
             // Store the userId in ViewBag
@@ -87,6 +87,14 @@ namespace OnlineBankingApp.Controllers
                         return View(account); // Return to the view with errors
                     }
 
+                    if (_context.Accounts.FirstOrDefault(a => a.AccountNumber == account.AccountNumber) != null)
+                    {
+                        ModelState.AddModelError("AccountNumber", "Account already exists");
+                        ViewBag.Action = "Create";
+                        ViewBag.Banks = _context.Banks.ToList();
+                        return View(account); // Return to the view with errors
+                    }
+
                     // Add the new account to the database
                     _context.Accounts.Add(account);
                     _context.SaveChanges(); // Save changes to the database
@@ -104,7 +112,7 @@ namespace OnlineBankingApp.Controllers
 
             // If validation fails, reload the banks list
             ViewBag.Action = "Create";
-            ModelState.AddModelError("", "NoId");
+            ModelState.AddModelError("", "Error");
             ViewBag.Banks = _context.Banks.ToList();
             return View(account); // Return the account model to the view if validation fails
         }

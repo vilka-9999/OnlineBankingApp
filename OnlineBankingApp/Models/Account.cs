@@ -8,6 +8,10 @@ namespace OnlineBankingApp.Models
     {
         public int? AccountId { get; set; }
 
+        [Required]
+        [Range(1000000000000000, 9999999999999999, ErrorMessage = "The number must be 16 digits long.")]
+        public long AccountNumber {  get; set; }
+
         [Required(ErrorMessage = "Account Balance is required")]
         [Column(TypeName = "decimal(18,2)")]
         public decimal AccountBalance { get; set; }
