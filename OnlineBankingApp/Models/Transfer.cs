@@ -13,13 +13,13 @@ namespace OnlineBankingApp.Models
         public DateTime TransferDate { get; set; } = DateTime.UtcNow;
 
         [Required(ErrorMessage = "Sender Account is required")]
-        public string SenderAccountId { get; set; }
+        public int? SenderAccountId { get; set; }
 
         [ValidateNever]
         public Account SenderAccount { get; set; } = null!;
 
         [Required(ErrorMessage = "Receiver Account is required")]
-        public string ReceiverAccountId { get; set; }
+        public int? ReceiverAccountId { get; set; }
 
         [ValidateNever]
         public Account ReceiverAccount { get; set; } = null!;

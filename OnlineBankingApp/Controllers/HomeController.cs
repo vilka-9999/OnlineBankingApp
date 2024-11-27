@@ -61,11 +61,13 @@ namespace OnlineBankingApp.Controllers
         [Authorize]
         public IActionResult Create(Account account)
         {
+            
             var userEmail = HttpContext.User.Identity?.Name;
 
             var user = _context.Users.FirstOrDefault(u => u.Email == userEmail);
 
             var userId = user.UserId;
+            
 
             if (ModelState.IsValid)
             {
@@ -77,7 +79,7 @@ namespace OnlineBankingApp.Controllers
                     account.UserId = userId.Value;
 
                     // Check for valid bank and account balance
-                    if (account.BankId == 0 || account.AccountBalance <= 0)
+                    if (account.BankId == 0 || account.AccountBalance < 0)
                     {
                         ModelState.AddModelError("", "Account must have a valid bank and positive balance.");
                         ViewBag.Action = "Create";
@@ -102,6 +104,7 @@ namespace OnlineBankingApp.Controllers
 
             // If validation fails, reload the banks list
             ViewBag.Action = "Create";
+            ModelState.AddModelError("", "NoId");
             ViewBag.Banks = _context.Banks.ToList();
             return View(account); // Return the account model to the view if validation fails
         }

@@ -12,7 +12,7 @@ using OnlineBankingApp.Models;
 namespace OnlineBankingApp.Migrations
 {
     [DbContext(typeof(OnlineBankingAppContext))]
-    [Migration("20241122061255_initial")]
+    [Migration("20241127041947_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -27,8 +27,11 @@ namespace OnlineBankingApp.Migrations
 
             modelBuilder.Entity("OnlineBankingApp.Models.Account", b =>
                 {
-                    b.Property<string>("AccountId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("AccountId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("AccountId"));
 
                     b.Property<decimal>("AccountBalance")
                         .HasColumnType("decimal(18,2)");
@@ -40,7 +43,8 @@ namespace OnlineBankingApp.Migrations
                     b.Property<int>("BankId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("AccountId");
@@ -54,7 +58,7 @@ namespace OnlineBankingApp.Migrations
                     b.HasData(
                         new
                         {
-                            AccountId = "TestAccId",
+                            AccountId = 1,
                             AccountBalance = 1m,
                             AccountType = "Saving",
                             BankId = 1,
@@ -62,7 +66,7 @@ namespace OnlineBankingApp.Migrations
                         },
                         new
                         {
-                            AccountId = "TestAccId1",
+                            AccountId = 2,
                             AccountBalance = 1m,
                             AccountType = "Saving",
                             BankId = 1,
@@ -127,8 +131,15 @@ namespace OnlineBankingApp.Migrations
                         {
                             BankId = 1,
                             BankCountry = "USA",
-                            BankName = "BoA",
-                            BankType = "testBT"
+                            BankName = "Bank of America",
+                            BankType = "National"
+                        },
+                        new
+                        {
+                            BankId = 2,
+                            BankCountry = "USA",
+                            BankName = "Chase Bank",
+                            BankType = "National"
                         });
                 });
 
@@ -182,13 +193,13 @@ namespace OnlineBankingApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("TransferId"));
 
-                    b.Property<string>("ReceiverAccountId")
+                    b.Property<int?>("ReceiverAccountId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("int");
 
-                    b.Property<string>("SenderAccountId")
+                    b.Property<int?>("SenderAccountId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("int");
 
                     b.Property<int>("TransferAmount")
                         .HasColumnType("int");
@@ -208,10 +219,10 @@ namespace OnlineBankingApp.Migrations
                         new
                         {
                             TransferId = 1,
-                            ReceiverAccountId = "TestAccId1",
-                            SenderAccountId = "TestAccId",
+                            ReceiverAccountId = 1,
+                            SenderAccountId = 1,
                             TransferAmount = 1,
-                            TransferDate = new DateTime(2024, 11, 22, 6, 12, 54, 191, DateTimeKind.Utc).AddTicks(2396)
+                            TransferDate = new DateTime(2024, 11, 27, 4, 19, 46, 290, DateTimeKind.Utc).AddTicks(9217)
                         });
                 });
 

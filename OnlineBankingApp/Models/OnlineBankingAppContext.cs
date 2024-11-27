@@ -45,7 +45,7 @@ namespace OnlineBankingApp.Models
             modelBuilder.Entity<Account>().HasData(
                 new Account
                 {
-                    AccountId = "TestAccId",
+                    AccountId = 1,
                     AccountBalance = 1,
                     AccountType = "Saving",
                     UserId = 1,
@@ -53,7 +53,7 @@ namespace OnlineBankingApp.Models
                 },
                 new Account
                 {
-                    AccountId = "TestAccId1",
+                    AccountId = 2,
                     AccountBalance = 1,
                     AccountType = "Saving",
                     UserId = 1,
@@ -86,8 +86,8 @@ namespace OnlineBankingApp.Models
                 {
                     TransferId = 1,
                     TransferAmount = 1,
-                    SenderAccountId = "TestAccId",
-                    ReceiverAccountId = "TestAccId1"
+                    SenderAccountId = 1,
+                    ReceiverAccountId = 1
                 }
             );
         }

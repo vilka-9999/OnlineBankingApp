@@ -24,8 +24,11 @@ namespace OnlineBankingApp.Migrations
 
             modelBuilder.Entity("OnlineBankingApp.Models.Account", b =>
                 {
-                    b.Property<string>("AccountId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("AccountId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("AccountId"));
 
                     b.Property<decimal>("AccountBalance")
                         .HasColumnType("decimal(18,2)");
@@ -52,7 +55,7 @@ namespace OnlineBankingApp.Migrations
                     b.HasData(
                         new
                         {
-                            AccountId = "TestAccId",
+                            AccountId = 1,
                             AccountBalance = 1m,
                             AccountType = "Saving",
                             BankId = 1,
@@ -60,7 +63,7 @@ namespace OnlineBankingApp.Migrations
                         },
                         new
                         {
-                            AccountId = "TestAccId1",
+                            AccountId = 2,
                             AccountBalance = 1m,
                             AccountType = "Saving",
                             BankId = 1,
@@ -187,13 +190,13 @@ namespace OnlineBankingApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("TransferId"));
 
-                    b.Property<string>("ReceiverAccountId")
+                    b.Property<int?>("ReceiverAccountId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("int");
 
-                    b.Property<string>("SenderAccountId")
+                    b.Property<int?>("SenderAccountId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("int");
 
                     b.Property<int>("TransferAmount")
                         .HasColumnType("int");
@@ -213,10 +216,10 @@ namespace OnlineBankingApp.Migrations
                         new
                         {
                             TransferId = 1,
-                            ReceiverAccountId = "TestAccId1",
-                            SenderAccountId = "TestAccId",
+                            ReceiverAccountId = 1,
+                            SenderAccountId = 1,
                             TransferAmount = 1,
-                            TransferDate = new DateTime(2024, 11, 24, 21, 33, 42, 621, DateTimeKind.Utc).AddTicks(6610)
+                            TransferDate = new DateTime(2024, 11, 27, 4, 19, 46, 290, DateTimeKind.Utc).AddTicks(9217)
                         });
                 });
 

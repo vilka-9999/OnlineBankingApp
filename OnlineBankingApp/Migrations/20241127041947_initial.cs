@@ -95,7 +95,8 @@ namespace OnlineBankingApp.Migrations
                 name: "Accounts",
                 columns: table => new
                 {
-                    AccountId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AccountId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     AccountBalance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     AccountType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
@@ -126,8 +127,8 @@ namespace OnlineBankingApp.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TransferAmount = table.Column<int>(type: "int", nullable: false),
                     TransferDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    SenderAccountId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ReceiverAccountId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    SenderAccountId = table.Column<int>(type: "int", nullable: false),
+                    ReceiverAccountId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -154,7 +155,11 @@ namespace OnlineBankingApp.Migrations
             migrationBuilder.InsertData(
                 table: "Banks",
                 columns: new[] { "BankId", "BankCountry", "BankName", "BankType" },
-                values: new object[] { 1, "USA", "BoA", "testBT" });
+                values: new object[,]
+                {
+                    { 1, "USA", "Bank of America", "National" },
+                    { 2, "USA", "Chase Bank", "National" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Users",
@@ -166,14 +171,14 @@ namespace OnlineBankingApp.Migrations
                 columns: new[] { "AccountId", "AccountBalance", "AccountType", "BankId", "UserId" },
                 values: new object[,]
                 {
-                    { "TestAccId", 1m, "Saving", 1, 1 },
-                    { "TestAccId1", 1m, "Saving", 1, 1 }
+                    { 1, 1m, "Saving", 1, 1 },
+                    { 2, 1m, "Saving", 1, 1 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Transfers",
                 columns: new[] { "TransferId", "ReceiverAccountId", "SenderAccountId", "TransferAmount", "TransferDate" },
-                values: new object[] { 1, "TestAccId1", "TestAccId", 1, new DateTime(2024, 11, 22, 6, 12, 54, 191, DateTimeKind.Utc).AddTicks(2396) });
+                values: new object[] { 1, 1, 1, 1, new DateTime(2024, 11, 27, 4, 19, 46, 290, DateTimeKind.Utc).AddTicks(9217) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Accounts_BankId",

@@ -27,7 +27,7 @@ namespace OnlineBankingApp.Areas.Admin.Controllers
         }
 
         // GET: Admin/Accounts/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(int id)
         {
             if (id == null)
             {
@@ -73,7 +73,7 @@ namespace OnlineBankingApp.Areas.Admin.Controllers
         }
 
         // GET: Admin/Accounts/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(int id)
         {
             if (id == null)
             {
@@ -95,7 +95,7 @@ namespace OnlineBankingApp.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("AccountId,AccountBalance,AccountType,UserId,BankId")] Account account)
+        public async Task<IActionResult> Edit(int id, [Bind("AccountId,AccountBalance,AccountType,UserId,BankId")] Account account)
         {
             if (id != account.AccountId)
             {
@@ -111,7 +111,7 @@ namespace OnlineBankingApp.Areas.Admin.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AccountExists(account.AccountId))
+                    if (!AccountExists((int)account.AccountId))
                     {
                         return NotFound();
                     }
@@ -128,7 +128,7 @@ namespace OnlineBankingApp.Areas.Admin.Controllers
         }
 
         // GET: Admin/Accounts/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (id == null)
             {
@@ -150,7 +150,7 @@ namespace OnlineBankingApp.Areas.Admin.Controllers
         // POST: Admin/Accounts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var account = await _context.Accounts.FindAsync(id);
             if (account != null)
@@ -162,7 +162,7 @@ namespace OnlineBankingApp.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AccountExists(string id)
+        private bool AccountExists(int id)
         {
             return _context.Accounts.Any(e => e.AccountId == id);
         }
