@@ -54,7 +54,7 @@ namespace OnlineBankingApp.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AdvisorId,AdvisorName,ClientsNumber")] Advisor advisor)
+        public async Task<IActionResult> Create([Bind("AdvisorId,AdvisorName,AdvisorPhone,AdvisorEmail,ClientsNumber")] Advisor advisor)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace OnlineBankingApp.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, [Bind("AdvisorId,AdvisorName,ClientsNumber")] Advisor advisor)
+        public async Task<IActionResult> Edit(int? id, [Bind("AdvisorId,AdvisorName,AdvisorPhone,AdvisorEmail,ClientsNumber")] Advisor advisor)
         {
             if (id != advisor.AdvisorId)
             {

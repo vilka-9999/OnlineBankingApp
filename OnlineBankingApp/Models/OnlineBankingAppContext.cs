@@ -38,6 +38,8 @@ namespace OnlineBankingApp.Models
                 {
                     AdvisorId = 1,
                     AdvisorName = "TestAN",
+                    AdvisorEmail = "Test@gmail.com",
+                    AdvisorPhone = "1234567890",
                     ClientsNumber = 1,
                 }
             );

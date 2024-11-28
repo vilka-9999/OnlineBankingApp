@@ -9,7 +9,6 @@ namespace OnlineBankingApp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly OnlineBankingAppContext _context;
-        private int? _userId; // Global variable to store the userId
 
         public HomeController(ILogger<HomeController> logger, OnlineBankingAppContext context)
         {

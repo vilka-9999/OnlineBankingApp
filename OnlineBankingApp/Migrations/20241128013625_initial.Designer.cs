@@ -12,7 +12,7 @@ using OnlineBankingApp.Models;
 namespace OnlineBankingApp.Migrations
 {
     [DbContext(typeof(OnlineBankingAppContext))]
-    [Migration("20241127211114_initial")]
+    [Migration("20241128013625_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -87,7 +87,15 @@ namespace OnlineBankingApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("AdvisorId"));
 
+                    b.Property<string>("AdvisorEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("AdvisorName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AdvisorPhone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -102,7 +110,9 @@ namespace OnlineBankingApp.Migrations
                         new
                         {
                             AdvisorId = 1,
+                            AdvisorEmail = "Test@gmail.com",
                             AdvisorName = "TestAN",
+                            AdvisorPhone = "1234567890",
                             ClientsNumber = 1
                         });
                 });
@@ -227,7 +237,7 @@ namespace OnlineBankingApp.Migrations
                             ReceiverAccountId = 1,
                             SenderAccountId = 1,
                             TransferAmount = 1,
-                            TransferDate = new DateTime(2024, 11, 27, 21, 11, 13, 468, DateTimeKind.Utc).AddTicks(7124)
+                            TransferDate = new DateTime(2024, 11, 28, 1, 36, 24, 681, DateTimeKind.Utc).AddTicks(7912)
                         });
                 });
 
