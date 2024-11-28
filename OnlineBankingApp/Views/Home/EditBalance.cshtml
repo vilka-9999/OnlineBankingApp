@@ -1,4 +1,4 @@
-﻿@model OnlineBankingApp.Models.Account
+@model OnlineBankingApp.Models.Account
 
 @{
     ViewData["Title"] = "Edit Balance";
@@ -6,18 +6,70 @@
 
 <h1>Edit Account</h1>
 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f9f9f9;
+    }
+    h1 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    form {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+    }
+    button {
+        padding: 10px 20px;
+        border-radius: 4px;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>
+
 <form method="post" asp-action="EditBalance" asp-route-id="@Model.AccountId">
     <div class="form-group">
         <label for="AccountBalance">Account Balance</label>
         <input type="number" class="form-control" id="AccountBalance" name="AccountBalance" value="@Model.AccountBalance" />
     </div>
-    <input asp-for="AccountNumber" type="hidden"/>
+    <input asp-for="AccountNumber" type="hidden" />
     <input asp-for="AccountType" type="hidden" />
     <input asp-for="BankId" type="hidden" />
     <input asp-for="UserId" type="hidden" />
     <input asp-for="AccountId" type="hidden" />
 
-
     <button type="submit" class="btn btn-primary">Save Changes</button>
 </form>
+
 
