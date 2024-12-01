@@ -234,7 +234,7 @@ namespace OnlineBankingApp.Migrations
                             ReceiverAccountId = 1,
                             SenderAccountId = 1,
                             TransferAmount = 1,
-                            TransferDate = new DateTime(2024, 11, 28, 1, 36, 24, 681, DateTimeKind.Utc).AddTicks(7912)
+                            TransferDate = new DateTime(2024, 11, 30, 23, 39, 15, 30, DateTimeKind.Utc).AddTicks(8804)
                         });
                 });
 

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace OnlineBankingApp.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -181,7 +181,7 @@ namespace OnlineBankingApp.Migrations
             migrationBuilder.InsertData(
                 table: "Transfers",
                 columns: new[] { "TransferId", "ReceiverAccountId", "SenderAccountId", "TransferAmount", "TransferDate" },
-                values: new object[] { 1, 1, 1, 1, new DateTime(2024, 11, 28, 1, 36, 24, 681, DateTimeKind.Utc).AddTicks(7912) });
+                values: new object[] { 1, 1, 1, 1, new DateTime(2024, 11, 30, 23, 39, 15, 30, DateTimeKind.Utc).AddTicks(8804) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Accounts_BankId",

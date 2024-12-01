@@ -16,9 +16,6 @@ namespace OnlineBankingApp.Models
         [Required(ErrorMessage = "Advisor Name is required")]
         [EmailAddress(ErrorMessage = "Enter the valid Email")]
         public string AdvisorEmail { get; set; }
-
-
-
         public int ClientsNumber { get; set; }
 
     }
