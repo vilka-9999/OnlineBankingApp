@@ -34,13 +34,12 @@ namespace OnlineBankingApp.Controllers
             }
 
             // Pass user ID and account data to the view
-            ViewBag.UserId = user.UserId;
+            
             var accounts = _context.Accounts
                                    .Where(a => a.UserId == user.UserId)
                                    .Include(a => a.Bank)
                                    .ToList();
 
-            ViewBag.User = user;
             ViewBag.Accounts = accounts;
             return View();
         }
@@ -52,23 +51,23 @@ namespace OnlineBankingApp.Controllers
             var senderAccount = _context.Accounts.FirstOrDefault(a => a.AccountId == senderAccountId);
             if (senderAccount == null)
             {
-                ModelState.AddModelError("", "Sender account not found.");
-                return View();
+                TempData["TransferUnsuccess"] = "Sender account not found.";
+                return RedirectToAction("Index");
             }
 
             // Ensure the sender has enough balance
             if (senderAccount.AccountBalance < transferAmount)
             {
-                ModelState.AddModelError("", "Insufficient balance in the sender's account.");
-                return View();
+                TempData["TransferUnsuccess"] = "Insufficient balance in the sender's account.";
+                return RedirectToAction("Index");
             }
 
             // Fetch the receiver's account by account number
             var receiverAccount = _context.Accounts.FirstOrDefault(a => a.AccountNumber == receiverAccountNumber);
             if (receiverAccount == null)
             {
-                ModelState.AddModelError("", "Receiver account not found.");
-                return View();
+                TempData["TransferUnsuccess"] = "Receiver account not found";
+                return RedirectToAction("Index");
             }
 
             // Perform the transfer
@@ -87,7 +86,7 @@ namespace OnlineBankingApp.Controllers
             _context.SaveChanges();
 
             // Notify success and reload the view
-            TempData["SuccessMessage"] = "Transfer completed successfully!";
+            TempData["SuccessMessage"] = "Transfer completed successfully!"; // need TempData because of different request
             return RedirectToAction("Index", "Home");
         }
 
@@ -101,7 +100,7 @@ namespace OnlineBankingApp.Controllers
                 .OrderByDescending(t => t.TransferDate)
                 .ToList();
             var account = _context.Accounts.Find(id);
-            TempData["accountNumber"] = account.AccountNumber;
+            ViewBag.AccountNumber = account.AccountNumber;
             return View(transfers);
         }
     }

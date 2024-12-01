@@ -1,28 +1,14 @@
 ﻿@{
     ViewData["Title"] = "Transfer Funds";
-    var user = ViewBag.User as OnlineBankingApp.Models.User;
     var accounts = ViewBag.Accounts as List<OnlineBankingApp.Models.Account>;
 }
 
 <h2>Transfer Funds</h2>
 
-<!-- Display success message -->
-@if (ViewBag.SuccessMessage != null)
-{
-        <div class="alert alert-success" role="alert">
-        @ViewBag.SuccessMessage
-        </div>
-}
-
 <!-- Display validation errors -->
-@if (!ViewData.ModelState.IsValid)
+@if (TempData["TransferUnsuccess"] != null)
 {
-        <div class="alert alert-danger" role="alert">
-        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-        {
-                    <p>@error.ErrorMessage</p>
-        }
-        </div>
+    <p class="alert alert-danger">@TempData["TransferUnsuccess"]</p>
 }
 
 <form asp-action="Index" method="post">
@@ -34,9 +20,9 @@
             {
                 foreach (var account in accounts)
                 {
-                            <option value="@account.AccountId">
+                    <option value="@account.AccountId">
                         @account.AccountNumber - @account.Bank (Balance: $@account.AccountBalance)
-                            </option>
+                    </option>
                 }
             }
         </select>

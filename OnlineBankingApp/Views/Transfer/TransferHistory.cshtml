@@ -1,6 +1,6 @@
 ﻿@model List<OnlineBankingApp.Models.Transfer>
 @{
-    var accountNumber = TempData["accountNumber"] as long?;
+    var accountNumber = ViewBag.AccountNumber;
 }
 <h2>Transfer History</h2>
 
