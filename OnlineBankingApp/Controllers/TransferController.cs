@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Plugins;
 using OnlineBankingApp.Models;
+using System.Security.Cryptography.Xml;
 
 namespace OnlineBankingApp.Controllers
 {
@@ -73,12 +75,34 @@ namespace OnlineBankingApp.Controllers
             senderAccount.AccountBalance -= transferAmount;
             receiverAccount.AccountBalance += transferAmount;
 
+            var transfer = new Transfer
+            {
+                SenderAccountId = senderAccountId,
+                ReceiverAccountId = receiverAccount.AccountId,
+                TransferAmount = transferAmount,
+            };
+
             // Save changes to the database
+            _context.Add(transfer);
             _context.SaveChanges();
 
             // Notify success and reload the view
-            ViewBag.SuccessMessage = "Transfer completed successfully!";
-            return RedirectToAction("Index");
+            TempData["SuccessMessage"] = "Transfer completed successfully!";
+            return RedirectToAction("Index", "Home");
+        }
+
+
+        public IActionResult TransferHistory(int id)
+        {
+            var transfers = _context.Transfers
+                .Include(t => t.ReceiverAccount)
+                .Include(t => t.SenderAccount)
+                .Where(t => t.SenderAccountId == id || t.ReceiverAccountId == id)
+                .OrderByDescending(t => t.TransferDate)
+                .ToList();
+            var account = _context.Accounts.Find(id);
+            TempData["accountNumber"] = account.AccountNumber;
+            return View(transfers);
         }
     }
 }

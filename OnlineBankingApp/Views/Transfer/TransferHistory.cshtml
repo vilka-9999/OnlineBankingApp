@@ -1,0 +1,32 @@
+﻿@model List<OnlineBankingApp.Models.Transfer>
+@{
+    var accountNumber = TempData["accountNumber"] as long?;
+}
+<h2>Transfer History</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Account</th>
+            <th>Amount</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transfer in Model)
+        {
+            <tr>
+                @if (accountNumber == @transfer.ReceiverAccount.AccountNumber)
+                {
+                    <td>@transfer.SenderAccount.AccountNumber</td>
+                    <td class="text-success">+ $@transfer.TransferAmount</td>
+                } else
+                {
+                    <td>@transfer.ReceiverAccount.AccountNumber</td>
+                    <td class="text-danger">- $@transfer.TransferAmount</td>
+                }
+                <td>@transfer.TransferDate.ToString("MM/dd/yyyy")</td>
+            </tr>
+        }
+    </tbody>
+</table>

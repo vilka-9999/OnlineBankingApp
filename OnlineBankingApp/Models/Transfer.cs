@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OnlineBankingApp.Models
 {
@@ -8,7 +9,8 @@ namespace OnlineBankingApp.Models
         public int? TransferId { get; set; }
 
         [Required(ErrorMessage = "Transfer Amount is required")]
-        public int TransferAmount { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal TransferAmount { get; set; }
 
         public DateTime TransferDate { get; set; } = DateTime.UtcNow;
 

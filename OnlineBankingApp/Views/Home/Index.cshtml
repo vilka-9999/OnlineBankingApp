@@ -108,10 +108,17 @@
             <form method="get" action="@Url.Action("Delete", "Home", new { id = account.AccountId })" style="display:inline;">
                 <button type="submit" class="btn btn-danger">Delete</button>
             </form>
+
+            <form method="get" action="@Url.Action("TransferHistory", "Transfer", new { id = account.AccountId })" style="display:inline;">
+                <button type="submit" class="btn btn-secondary">History</button>
+            </form>
         </div>
     }
 </div>
-
+@if (TempData["SuccessMessage"] != null)
+{
+    <p class="alert alert-success">@TempData["SuccessMessage"]</p>
+}
 <!-- Add New Account Button -->
 <form method="get" action="@Url.Action("Create", "Home")">
     <button type="submit" class="btn btn-success">Add New Account</button>

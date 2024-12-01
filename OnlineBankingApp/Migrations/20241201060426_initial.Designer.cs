@@ -12,8 +12,8 @@ using OnlineBankingApp.Models;
 namespace OnlineBankingApp.Migrations
 {
     [DbContext(typeof(OnlineBankingAppContext))]
-    [Migration("20241130233917_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20241201060426_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -216,8 +216,8 @@ namespace OnlineBankingApp.Migrations
                         .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int>("TransferAmount")
-                        .HasColumnType("int");
+                    b.Property<decimal>("TransferAmount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("TransferDate")
                         .HasColumnType("datetime2");
@@ -236,8 +236,8 @@ namespace OnlineBankingApp.Migrations
                             TransferId = 1,
                             ReceiverAccountId = 1,
                             SenderAccountId = 1,
-                            TransferAmount = 1,
-                            TransferDate = new DateTime(2024, 11, 30, 23, 39, 15, 30, DateTimeKind.Utc).AddTicks(8804)
+                            TransferAmount = 1m,
+                            TransferDate = new DateTime(2024, 12, 1, 6, 4, 25, 2, DateTimeKind.Utc).AddTicks(4203)
                         });
                 });
 
