@@ -69,7 +69,12 @@
     <p><strong>Balance:</strong> @Model.AccountBalance</p>
 
     <form method="post" asp-action="Delete">
-        <input asp-for="AccountId" type="hidden"/>
+        <input asp-for="AccountBalance" type="hidden"/>
+        <input asp-for="AccountNumber" type="hidden" />
+        <input asp-for="AccountType" type="hidden" />
+        <input asp-for="BankId" type="hidden" />
+        <input asp-for="UserId" type="hidden" />
+        <input asp-for="AccountId" type="hidden" />
         <button type="submit" class="btn btn-danger">Yes, Delete</button>
         <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Cancel</a>
     </form>

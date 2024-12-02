@@ -31,5 +31,7 @@ namespace OnlineBankingApp.Models
         [ValidateNever]
         public Bank Bank { get; set; } = null!;
 
+        public Boolean IsDeleted { get; set; } = false;
+
     }
 }

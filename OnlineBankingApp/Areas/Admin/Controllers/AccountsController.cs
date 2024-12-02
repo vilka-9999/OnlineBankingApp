@@ -59,7 +59,7 @@ namespace OnlineBankingApp.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AccountId,AccountNumber,AccountBalance,AccountType,UserId,BankId")] Account account)
+        public async Task<IActionResult> Create([Bind("AccountId,AccountNumber,AccountBalance,AccountType,UserId,BankId,IsDeleted")] Account account)
         {
             if (ModelState.IsValid)
             {
@@ -95,7 +95,7 @@ namespace OnlineBankingApp.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, [Bind("AccountId,AccountNumber,AccountBalance,AccountType,UserId,BankId")] Account account)
+        public async Task<IActionResult> Edit(int? id, [Bind("AccountId,AccountNumber,AccountBalance,AccountType,UserId,BankId,IsDeleted")] Account account)
         {
             if (id != account.AccountId)
             {

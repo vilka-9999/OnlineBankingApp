@@ -37,6 +37,7 @@ namespace OnlineBankingApp.Controllers
             
             var accounts = _context.Accounts
                                    .Where(a => a.UserId == user.UserId)
+                                   .Where(a => !a.IsDeleted)
                                    .Include(a => a.Bank)
                                    .ToList();
 
@@ -64,7 +65,7 @@ namespace OnlineBankingApp.Controllers
 
             // Fetch the receiver's account by account number
             var receiverAccount = _context.Accounts.FirstOrDefault(a => a.AccountNumber == receiverAccountNumber);
-            if (receiverAccount == null)
+            if (receiverAccount == null || receiverAccount.IsDeleted)
             {
                 TempData["TransferUnsuccess"] = "Receiver account not found";
                 return RedirectToAction("Index");

@@ -37,6 +37,7 @@ namespace OnlineBankingApp.Controllers
 
             var accounts = _context.Accounts
                                    .Where(a => a.UserId == user.UserId)
+                                   .Where(a => !a.IsDeleted)
                                    .Include(a => a.Bank)
                                    .ToList();
 
@@ -71,7 +72,7 @@ namespace OnlineBankingApp.Controllers
             if (ModelState.IsValid)
             {
                 // Retrieve the userId from ViewBag (set in Index action)
-                
+
                 if (userId.HasValue)
                 {
                     // Assign the userId to the account
@@ -86,7 +87,9 @@ namespace OnlineBankingApp.Controllers
                         return View(account); // Return to the view with errors
                     }
 
-                    if (_context.Accounts.FirstOrDefault(a => a.AccountNumber == account.AccountNumber) != null)
+
+                    var checkAccount = _context.Accounts.FirstOrDefault(a => a.AccountNumber == account.AccountNumber);
+                    if (checkAccount!= null && !checkAccount.IsDeleted)
                     {
                         ModelState.AddModelError("AccountNumber", "Account already exists");
                         ViewBag.Action = "Create";
@@ -94,8 +97,16 @@ namespace OnlineBankingApp.Controllers
                         return View(account); // Return to the view with errors
                     }
 
-                    // Add the new account to the database
-                    _context.Accounts.Add(account);
+                    // update isDeleted field or create a new account
+                    if (checkAccount == null)
+                    {
+                        _context.Accounts.Add(account);
+                    }
+                    else
+                    {
+                        checkAccount.IsDeleted = false;
+                        _context.Update(checkAccount);
+                    }
                     _context.SaveChanges(); // Save changes to the database
 
                     return RedirectToAction("Index"); // Redirect to the Index view after creation
@@ -178,7 +189,8 @@ namespace OnlineBankingApp.Controllers
         [Authorize]
         public IActionResult Delete(Account account)
         {
-            _context.Accounts.Remove(account);
+            account.IsDeleted = true;
+            _context.Update(account);
             _context.SaveChanges();
             return RedirectToAction("Index", "Home");
         }
